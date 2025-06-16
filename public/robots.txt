@@ -1,0 +1,21 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://guiapublicard.com/sitemap.xml
+
+# Disallow admin and private routes
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
+# Allow all other routes
+Allow: /assets/
+Allow: /images/
+Allow: /favicon*
+Allow: /manifest*
+Allow: /apple-touch-icon*
+Allow: /android-chrome*
+Allow: /mstile*
+Allow: /safari-pinned-tab* 
