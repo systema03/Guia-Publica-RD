@@ -1,15 +1,15 @@
 {
   "name": "guia-publica-rd",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "generate-favicons": "node scripts/generate-favicons.js",
-    "optimize-logo": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.0",

@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/logo-optimized.webp" as="image" type="image/webp" />
+    <link rel="preload" href="/logo-optimized.png" as="image" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
     <!-- Favicon básico -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -27,6 +33,10 @@
     
     <!-- Theme Color -->
     <meta name="theme-color" content="#3B82F6">
+    
+    <!-- Performance optimizations -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="format-detection" content="telephone=no">
     
     <title>Guía Pública RD - Portal Oficial</title>
   </head>

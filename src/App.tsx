@@ -27,11 +27,11 @@ function App() {
       <style>{`
         @keyframes slideIn {
           from {
-            transform: translateY(30px);
+            transform: translate3d(0, 30px, 0);
             opacity: 0;
           }
           to {
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
             opacity: 1;
           }
         }
@@ -47,11 +47,11 @@ function App() {
         
         @keyframes fadeInUp {
           from {
-            transform: translateY(20px);
+            transform: translate3d(0, 20px, 0);
             opacity: 0;
           }
           to {
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
             opacity: 1;
           }
         }
@@ -93,8 +93,10 @@ function App() {
         }
         
         .animate-slide-in {
-          animation: slideIn 1s ease-out forwards;
+          animation: slideIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           will-change: transform, opacity;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
         
         .animate-pulse-scale {
@@ -103,8 +105,10 @@ function App() {
         }
         
         .animate-fade-in-up {
-          animation: fadeInUp 0.8s ease-out forwards;
+          animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           will-change: transform, opacity;
+          transform: translateZ(0);
+          backface-visibility: hidden;
         }
         
         .animate-spin-slow {
@@ -115,10 +119,13 @@ function App() {
         .backdrop-blur-glass {
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
+          transform: translateZ(0);
+          will-change: backdrop-filter;
         }
         
         .shadow-3xl {
           box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+          transform: translateZ(0);
         }
         
         .text-shadow {
@@ -131,8 +138,9 @@ function App() {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: gradient-shift 3s ease-in-out infinite, text-glow 2s ease-in-out infinite;
+          animation: gradient-shift 3s ease-in-out infinite;
           will-change: background-position;
+          transform: translateZ(0);
         }
       `}</style>
       
@@ -175,7 +183,7 @@ function App() {
           {/* Public Services Application */}
           <div className="w-full animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <Suspense fallback={
-              <div className="bg-white/95 backdrop-blur-glass rounded-2xl p-8 animate-pulse">
+              <div className="bg-white/95 backdrop-blur-glass rounded-2xl p-8">
                 <div className="h-8 w-48 bg-gray-200 rounded-lg mb-4"></div>
                 <div className="space-y-4">
                   <div className="h-24 bg-gray-200 rounded-xl"></div>
