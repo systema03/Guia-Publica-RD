@@ -1,37 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, Users } from 'lucide-react';
+import { supabase } from '@/lib/supabaseClient'; // Asegúrate de que esta ruta sea correcta
 
 const VisitCounter: React.FC = () => {
   const [visitCount, setVisitCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Contador que comienza desde cero para producción
-    const updateVisitCount = () => {
+    const updateVisitCount = async () => {
       try {
-        if (typeof window !== 'undefined' && window.localStorage) {
-          const storedCount = localStorage.getItem('guia-publica-visits');
-          
-          if (storedCount) {
-            // Si ya existe un contador, incrementarlo
-            const currentCount = parseInt(storedCount, 10);
-            const newCount = currentCount + 1;
-            localStorage.setItem('guia-publica-visits', newCount.toString());
-            setVisitCount(newCount);
-          } else {
-            // Primera visita - comenzar desde 1
-            localStorage.setItem('guia-publica-visits', '1');
-            setVisitCount(1);
-          }
-        } else {
-          // Fallback si localStorage no está disponible
-          setVisitCount(1);
+        // Obtener la IP del visitante usando un servicio gratuito
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const { ip } = await ipResponse.json();
+
+        // Intentar registrar la visita
+        const { data, error } = await supabase
+          .from('visits')
+          .upsert(
+            { ip_address: ip },
+            { onConflict: 'ip_address', ignoreDuplicates: true }
+          );
+
+        if (error) {
+          console.error('Error al registrar visita:', error);
+          return;
         }
+
+        // Obtener el conteo total de visitas únicas
+        const { count, error: countError } = await supabase
+          .from('visits')
+          .select('*', { count: 'exact', head: true });
+
+        if (countError) {
+          console.error('Error al obtener conteo:', countError);
+          return;
+        }
+
+        setVisitCount(count || 0);
       } catch (error) {
-        console.log('LocalStorage not available, using default count');
-        setVisitCount(1);
+        console.error('Error en el contador de visitas:', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     // Pequeño delay para simular carga realista
