@@ -1,0 +1,17 @@
+# Redirección principal para SPA
+/* /index.html 200
+
+# Redirecciones de seguridad
+/.netlify/* /index.html 200
+
+# Redirecciones de caché
+/assets/* /assets/:splat 200
+/images/* /images/:splat 200
+
+# Redirecciones de idioma (para futura implementación)
+/es/* /index.html 200
+/en/* /index.html 200
+
+# Manejo de errores
+/404 /index.html 404
+/500 /index.html 500 
