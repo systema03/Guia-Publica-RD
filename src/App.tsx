@@ -1,13 +1,55 @@
 import React, { Suspense, lazy } from 'react';
 import GuiaPublicaLogo from './components/GuiaPublicaLogo';
 import SEO from './components/SEO';
+import VisitCounter from './components/VisitCounter';
 
 // Lazy load components
 const FloatingParticles = lazy(() => import('./components/FloatingParticles'));
 const DominicanFlag = lazy(() => import('./components/DominicanFlag'));
 const Footer = lazy(() => import('./components/Footer'));
-const VisitCounter = lazy(() => import('./components/VisitCounter'));
 const PublicServicesApp = lazy(() => import('./components/PublicServicesApp'));
+
+// Error Boundary Component
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback?: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error('Error en la aplicación:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback || (
+        <div className="min-h-screen bg-gradient-to-br from-blue-500 via-blue-600 to-red-600 
+                      flex items-center justify-center p-4">
+          <div className="bg-white/95 backdrop-blur-glass p-8 rounded-2xl shadow-3xl text-center">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">¡Ups! Algo salió mal</h2>
+            <p className="text-gray-600 mb-4">Estamos trabajando para solucionarlo.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                       transition-colors duration-200"
+            >
+              Recargar página
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -34,7 +76,7 @@ function App() {
   };
 
   return (
-    <>
+    <ErrorBoundary>
       <SEO />
       <style>{`
         @keyframes slideIn {
@@ -151,13 +193,17 @@ function App() {
       <div className="min-h-screen bg-gradient-to-br from-blue-500 via-blue-600 to-red-600 
                     flex flex-col overflow-hidden relative">
         
-        <Suspense fallback={null}>
-          <FloatingParticles />
-        </Suspense>
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <FloatingParticles />
+          </Suspense>
+        </ErrorBoundary>
         
-        <Suspense fallback={null}>
-          <DominicanFlag />
-        </Suspense>
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <DominicanFlag />
+          </Suspense>
+        </ErrorBoundary>
         
         {/* Main content area */}
         <div className="flex-1 flex flex-col items-center justify-start p-4 pt-8">
@@ -183,34 +229,49 @@ function App() {
               </div>
             </div>
 
-            <Suspense fallback={
-              <div className="h-8 w-32 bg-gray-200 animate-pulse rounded-lg mx-auto"></div>
+            <ErrorBoundary fallback={
+              <div className="text-gray-500 text-sm">Contador de visitas no disponible</div>
             }>
               <VisitCounter />
-            </Suspense>
+            </ErrorBoundary>
           </div>
 
           {/* Public Services Application */}
           <div className="w-full animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <Suspense fallback={
-              <div className="bg-white/95 backdrop-blur-glass rounded-2xl p-8 animate-pulse">
-                <div className="h-8 w-48 bg-gray-200 rounded-lg mb-4"></div>
-                <div className="space-y-4">
-                  <div className="h-24 bg-gray-200 rounded-xl"></div>
-                  <div className="h-24 bg-gray-200 rounded-xl"></div>
-                </div>
+            <ErrorBoundary fallback={
+              <div className="bg-white/95 backdrop-blur-glass rounded-2xl p-8 text-center">
+                <p className="text-red-600">No se pudo cargar la aplicación de servicios</p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                           transition-colors duration-200"
+                >
+                  Intentar de nuevo
+                </button>
               </div>
             }>
-              <PublicServicesApp onOpenChatbot={openChatbot} />
-            </Suspense>
+              <Suspense fallback={
+                <div className="bg-white/95 backdrop-blur-glass rounded-2xl p-8 animate-pulse">
+                  <div className="h-8 w-48 bg-gray-200 rounded-lg mb-4"></div>
+                  <div className="space-y-4">
+                    <div className="h-24 bg-gray-200 rounded-xl"></div>
+                    <div className="h-24 bg-gray-200 rounded-xl"></div>
+                  </div>
+                </div>
+              }>
+                <PublicServicesApp onOpenChatbot={openChatbot} />
+              </Suspense>
+            </ErrorBoundary>
           </div>
         </div>
         
-        <Suspense fallback={null}>
-          <Footer />
-        </Suspense>
+        <ErrorBoundary fallback={null}>
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
+        </ErrorBoundary>
       </div>
-    </>
+    </ErrorBoundary>
   );
 }
 
