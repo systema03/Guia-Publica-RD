@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'express'
 import { redis } from '@/lib/upstash'
 
 export default async function handler(
