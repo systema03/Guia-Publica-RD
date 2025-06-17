@@ -1,11 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { PublicService } from '../types/services';
 import { publicServices, getServiceById } from '../data/services';
+
+interface UseServicesResult {
+  activeService: PublicService | undefined;
+  activeServiceId: string;
+  services: PublicService[];
+  availableServices: PublicService[];
+  upcomingServices: PublicService[];
+  changeService: (serviceId: string) => void;
+}
 
 /**
  * Custom hook for managing public services state
  */
-export const useServices = () => {
+export const useServices = (): UseServicesResult => {
   const [activeServiceId, setActiveServiceId] = useState<string>('jce');
   const [services] = useState<PublicService[]>(publicServices);
 
