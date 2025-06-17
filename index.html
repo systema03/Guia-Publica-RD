@@ -3,45 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
+    <!-- Script de Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1532387256666655"
+      crossorigin="anonymous"></script>
+
     <!-- Preload critical assets -->
     <link rel="preload" href="/logo-optimized.webp" as="image" type="image/webp" />
     <link rel="preload" href="/logo-optimized.png" as="image" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
+
     <!-- Favicon básico -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    
+
     <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    
+
     <!-- Android -->
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    
+
     <!-- Microsoft -->
     <meta name="msapplication-TileColor" content="#3B82F6">
     <meta name="msapplication-TileImage" content="/mstile-144x144.png">
-    
+
     <!-- Safari Pinned Tab -->
     <link rel="mask-icon" href="/safari-pinned-tab.png" color="#3B82F6">
-    
+
     <!-- Manifest -->
     <link rel="manifest" href="/site.webmanifest">
-    
+
     <!-- Theme Color -->
     <meta name="theme-color" content="#3B82F6">
-    
+
     <!-- Performance optimizations -->
     <meta http-equiv="x-dns-prefetch-control" content="on">
     <meta name="format-detection" content="telephone=no">
-    
+
     <title>Guía Pública RD - Portal Oficial</title>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Bloque de anuncio de Google AdSense -->
+    <ins class="adsbygoogle"
+         style="display:block; text-align:center; margin-top: 20px;"
+         data-ad-client="ca-pub-1532387256666655"
+         data-ad-slot="1234567890"  <!-- ← Reemplaza este valor por tu ID real de anuncio -->
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
