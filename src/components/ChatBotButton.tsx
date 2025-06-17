@@ -4,12 +4,19 @@ import { MessageCircle, Loader2, CheckCircle2 } from 'lucide-react';
 // Lazy load del ícono Sparkles
 const Sparkles = lazy(() => import('lucide-react').then(mod => ({ default: mod.Sparkles })));
 
+// Tipado para props del botón principal
 interface ChatBotButtonProps {
   onClick: () => void;
 }
 
+// ✅ Tipado para props de IconWrapper
+interface IconWrapperProps {
+  isLoading: boolean;
+  showConfirmation: boolean;
+}
+
 // Componente de ícono optimizado
-const IconWrapper = memo(({ isLoading, showConfirmation }) => {
+const IconWrapper = memo(({ isLoading, showConfirmation }: IconWrapperProps) => {
   if (isLoading) return <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin flex-shrink-0" />;
   if (showConfirmation) return <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-300 flex-shrink-0" />;
   return <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300 flex-shrink-0" />;
@@ -43,7 +50,6 @@ const ChatBotButton: React.FC<ChatBotButtonProps> = ({ onClick }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // Memoize el manejador de clic
   const handleClick = useCallback(async () => {
     if (isLoading) return;
     setIsLoading(true);
@@ -58,7 +64,6 @@ const ChatBotButton: React.FC<ChatBotButtonProps> = ({ onClick }) => {
     }
   }, [onClick, isLoading]);
 
-  // Memoize el texto del botón
   const buttonText = isLoading 
     ? 'Conectando...' 
     : showConfirmation 
@@ -117,5 +122,4 @@ const ChatBotButton: React.FC<ChatBotButtonProps> = ({ onClick }) => {
   );
 };
 
-// Exportar el componente memoizado
 export default memo(ChatBotButton);
