@@ -34,3 +34,9 @@ const PublicServicesApp: React.FC<PublicServicesAppProps> = ({ onOpenChatbot }) 
 };
 
 export default PublicServicesApp;
+
+    </div>
+  );
+};
+
+export default PublicServicesApp;
